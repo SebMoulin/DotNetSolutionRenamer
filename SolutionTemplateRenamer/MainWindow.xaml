@@ -1,0 +1,99 @@
+﻿<Window x:Class="SolutionTemplateRenamer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SolutionTemplateRenamer"
+        mc:Ignorable="d"
+        Title="Solution Template Renamer" 
+        Height="350" 
+        Width="525"
+        ResizeMode="NoResize">
+
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Status: "></TextBlock>
+                <TextBlock Text="{Binding ProcessStatus}" Margin="0,0,10,0"/>
+                <ProgressBar Orientation="Horizontal" 
+                             Width="350" 
+                             Height="10" 
+                             FlowDirection="LeftToRight"
+                             IsIndeterminate="false" 
+                             HorizontalAlignment="Center"
+                             Minimum="0"
+                             Maximum="{Binding TotalFilesToRename}"
+                             Value="{Binding CurrentlyProcessedFiles}"/>
+            </StackPanel>
+        </StatusBar>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock Margin="10,10,0,0">
+                    <Run Text="Select the folder that contains the solution file."/>
+                    <LineBreak/>
+                    <Run Text="give a new name to the solution and folders"/>
+                    <LineBreak/>
+                    <Run Text="This tool will replace the .net solution template name with the new name in the file content."/>
+                    <LineBreak/>
+                    <Run Text="it will also also rename the file names and folders names that matches."/>
+                    <LineBreak/>
+                    <Run TextDecorations="Underline" Text="Supported files :"/>
+                </TextBlock>
+                <TextBlock Text="{Binding SupportedFileExtensions}" 
+                           FontStyle="Italic"
+                           Height="30"
+                           MaxWidth="450"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1"
+                       Orientation="Horizontal">
+                <Button Height="25"
+                        Width="150"
+                        Margin="10,0,10,0"
+                        HorizontalAlignment="Left"
+                        Command="{Binding OpenFolderPickerCommand}">
+                    <TextBlock Text="Select Folder"/>
+                </Button>
+                <StackPanel Orientation="Horizontal"
+                           VerticalAlignment="Center">
+                    <TextBlock>
+                        <Run TextDecorations="Underline" Text="Solution Folder"></Run>
+                        <Run Text=" ("></Run>
+                        <Run Text="*" Foreground="DarkRed"></Run>
+                        <Run Text=") :"></Run>
+                    </TextBlock>
+                    <TextBlock Text="{Binding FolderPath}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Row="2">
+                <StackPanel  Orientation="Horizontal"
+                             Margin="0,10,0,0">
+                    <Label Height="25" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top">Old Name:</Label>
+                    <TextBox Height="25" Width="350" VerticalAlignment="Top" Text="{Binding OldName}"></TextBox>
+                    <TextBlock Height="25" FontSize="8" TextWrapping="Wrap" Margin="2" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="61">Name must finish with a "."</TextBlock>
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal"
+                             Margin="0,10,0,0">
+                    <Label Height="25" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top">New Name:</Label>
+                    <TextBox Height="25" Width="350" VerticalAlignment="Top" Text="{Binding NewName}"/>
+                    <TextBlock Height="25" Width="6" VerticalAlignment="Top" Text="*" Foreground="DarkRed"/>
+                    <TextBlock Height="25" FontSize="8" TextWrapping="Wrap" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65">Name must finish with a "."</TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <Button Grid.Row="3"
+                    Width="100"
+                    Height="25"
+                    HorizontalAlignment="Left"
+                    Margin="80,0,0,0"
+                    Command="{Binding LaunchRenameCommand}">Go</Button>
+        </Grid>
+    </DockPanel>
+</Window>
